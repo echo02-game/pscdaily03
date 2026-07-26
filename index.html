@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#C0E1D2">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="每日練習打卡記錄">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+<title>每日練習打卡記錄</title>
+</head>
+<body>
+
+<header class="app-header">
+  <h1>普通話每日練習打卡</h1>
+  <div class="who"><span id="whoName">—</span> · 基礎鞏固課程</div>
+  <div class="week-bar" id="weekBar">
+    <select id="weekSelect" aria-label="選擇週次"></select>
+    <span class="pill" id="modePill">—</span>
+  </div>
+</header>
+
+<!-- 打卡頁 -->
+<main id="pageCheckin">
+  <div class="day-tabs" id="dayTabs"></div>
+  <div class="date-row">
+    <label for="checkinDate">打卡日期</label>
+    <input type="date" id="checkinDate">
+  </div>
+  <div class="wrap" id="taskArea"></div>
+  <div class="submit-bar">
+    <button class="btn-primary" id="submitBtn">提交今天的打卡</button>
+    <div class="submit-hint">💡 每天提交一次即可，無須重複提交。<br>重複提交會在老師的記錄中產生多筆重複資料。</div>
+    <div class="saved-note" id="savedNote"></div>
+  </div>
+</main>
+
+<!-- 記錄頁 -->
+<main id="pageHistory" class="hide">
+  <div class="wrap">
+    <div class="card" style="text-align:center">
+      <div class="muted">連續打卡</div>
+      <div class="streak" id="streakNum">0</div>
+      <div class="muted">天 · 累計提交 <b id="totalSub">0</b> 次</div>
+    </div>
+    <div id="histList"></div>
+  </div>
+</main>
+
+<!-- 設定頁 -->
+<main id="pageSettings" class="hide">
+  <div class="wrap">
+    <div class="card">
+      <h2>個人資料</h2>
+      <div class="field-label">姓名</div>
+      <input type="text" id="setName" placeholder="你的姓名">
+    </div>
+    <div class="card">
+      <h2>課程設定</h2>
+      <div class="field-label">第 1 週開始日期</div>
+      <input type="text" id="setStart" placeholder="YYYY-MM-DD">
+      <div class="field-label">提交連結（老師提供的 Webhook）</div>
+      <input type="url" id="setHook" placeholder="https://hook....">
+      <p class="muted" style="margin-top:8px">提交連結由老師在 Make.com 建立後提供；填入後打卡會自動送到老師的 Notion。</p>
+    </div>
+    <div class="submit-bar">
+      <button class="btn-primary" id="saveSettings">儲存設定</button>
+      <button class="btn-secondary" id="resyncBtn">重新傳送未成功的打卡</button>
+    </div>
+
+    <div class="card">
+      <h2>📲 安裝到手機主畫面</h2>
+      <p class="sub">安裝後可像一般 App 一樣從主畫面開啟，離線也能打卡。</p>
+      <div class="guide-block">
+        <div class="guide-head">🍎 iPhone / iPad（Safari）</div>
+        <ol class="guide-ol">
+          <li>用 <b>Safari</b> 開啟本網頁（Chrome 無法安裝）</li>
+          <li>點畫面下方中間的 <b>分享圖示</b>（方框加向上箭頭）</li>
+          <li>向下滾動，選 <b>加入主畫面</b></li>
+          <li>右上角按 <b>新增</b></li>
+        </ol>
+      </div>
+      <div class="guide-block">
+        <div class="guide-head">🤖 Android（Chrome）</div>
+        <ol class="guide-ol">
+          <li>用 <b>Chrome</b> 開啟本網頁</li>
+          <li>點右上角的 <b>⋮</b> 選單</li>
+          <li>選 <b>加到主畫面</b> 或 <b>安裝應用程式</b></li>
+          <li>按 <b>安裝</b> 確認</li>
+        </ol>
+      </div>
+      <div class="guide-note">✅ 安裝後請從主畫面圖示開啟，打卡資料會保留在你的裝置上。</div>
+    </div>
+
+    <div class="card">
+      <h2>🔒 私隱保障</h2>
+      <p class="privacy-text">此網頁工具僅作學習記錄之用。當你按【提交】，打卡資料將上載至老師的 Notion 學習記錄中。此網頁工具亦沒有申請任何裝置權限。</p>
+    </div>
+
+    <div class="card">
+      <h2>🗑 清除本機資料</h2>
+      <p class="sub">清除此裝置上儲存的姓名、打卡紀錄與設定。適用於換手機或使用共用裝置後。此操作無法復原。</p>
+      <button class="btn-danger" id="clearDataBtn">清除本機所有資料</button>
+    </div>
+  </div>
+</main>
+
+<!-- 學習資源頁 -->
+<main id="pageResources" class="hide">
+  <div class="wrap">
+    <div class="res-hero">
+      <div class="res-hero-icon">🎁</div>
+      <h2>學習資源工具箱</h2>
+      <p>除了打卡，還有這些工具幫你練好普通話</p>
+    </div>
+
+    <section class="res-section" data-tone="rose">
+      <div class="res-section-head">
+        <span class="res-emoji">📖</span>
+        <h3>官方標準</h3>
+      </div>
+      <div class="res-card">
+        <div class="res-title">《普通話水平測試實施綱要》（2021 年版）</div>
+        <ul class="res-list">
+          <li><b>朗讀短文：</b>《朗讀作品》</li>
+          <li><b>選擇判斷：</b>《普通話與方言詞語對照表》、《普通話與方言常見語法差異對照表》、《普通話常見量詞名詞搭配》</li>
+          <li><b>字詞朗讀：</b>《詞語表》（表一 / 表二 / 必讀輕聲 / 兒化詞語）</li>
+        </ul>
+        <div class="res-tag">📗 實體參考書</div>
+      </div>
+    </section>
+
+    <section class="res-section" data-tone="mint">
+      <div class="res-section-head">
+        <span class="res-emoji">🎯</span>
+        <h3>學習工具（PTTC 設計製作）</h3>
+      </div>
+      <a class="res-link-card" href="https://www.vtc.edu.hk/pttc/chi/" target="_blank" rel="noopener">
+        <div class="res-title">精讀字詞通</div>
+        <div class="res-meta">PTTC 學習網頁 · 普通話水平測試字詞精讀</div>
+        <div class="res-cta">開啟網站 →</div>
+      </a>
+      <a class="res-link-card" href="https://echo02-game.github.io/pttcgamehub/" target="_blank" rel="noopener">
+        <div class="res-title">普通話自修室</div>
+        <div class="res-meta">PTTC 學習網頁 · 遊戲化練習</div>
+        <div class="res-cta">開啟網站 →</div>
+      </a>
+      <a class="res-link-card" href="https://echo02-game.github.io/pscflashcards03/" target="_blank" rel="noopener">
+        <div class="res-title">難點字詞記憶詞卡</div>
+        <div class="res-meta">可安裝為手機主畫面應用程式使用</div>
+        <div class="res-note">⚠️ 如已安裝為手機主畫面程式，勿開啟此鏈接</div>
+        <div class="res-cta">開啟 →</div>
+      </a>
+    </section>
+
+    <section class="res-section" data-tone="cream">
+      <div class="res-section-head">
+        <span class="res-emoji">📱</span>
+        <h3>其他學習工具</h3>
+      </div>
+      <div class="res-card">
+        <div class="res-title">iOS App「普通話考試」</div>
+        <div class="res-meta">App Store 搜尋「普通話考試」下載 · 內含專項及真題練習</div>
+        <div class="res-tag">📲 需 iPhone</div>
+      </div>
+    </section>
+
+    <section class="res-section" data-tone="mint-deep">
+      <div class="res-section-head">
+        <span class="res-emoji">🌟</span>
+        <h3>課程專屬工具</h3>
+      </div>
+      <div class="res-card">
+        <div class="res-title">普通話每日打卡</div>
+        <div class="res-meta">你現在使用中的工具 · 每天記錄練習</div>
+        <div class="res-tag">✅ 使用中</div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="app-footer">
+  此網頁工具僅供內部使用。<br>普通話培訓測試中心版權所有。
+</footer>
+
+<nav class="nav">
+  <button data-page="checkin" class="active"><span class="ic">📝</span>打卡</button>
+  <button data-page="history"><span class="ic">📊</span>記錄</button>
+  <button data-page="resources"><span class="ic">🎁</span>資源</button>
+  <button data-page="settings"><span class="ic">🔧</span>設定</button>
+</nav>
+
+<!-- 首次啟用 -->
+<div class="modal hide" id="onboard">
+  <div class="box">
+    <h2>歡迎使用普通話打卡</h2>
+    <p class="muted">請輸入你的姓名開始使用。之後可在「設定」修改。</p>
+    <div class="field-label">姓名 *</div>
+    <input type="text" id="obName" placeholder="你的姓名">
+    <div class="submit-bar" style="padding:16px 0 0">
+      <button class="btn-primary" id="obStart">開始使用</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

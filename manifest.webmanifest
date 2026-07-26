@@ -1,0 +1,17 @@
+{
+  "name": "每日練習打卡記錄",
+  "short_name": "每日練習打卡記錄",
+  "description": "普通話水平測試基礎鑑固課程 — 學生每日朗讀與專項練習打卡工具",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F6F4E8",
+  "theme_color": "#C0E1D2",
+  "lang": "zh-Hant",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
