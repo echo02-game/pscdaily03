@@ -297,3 +297,10 @@ textarea{resize:vertical; min-height:56px}
   color:var(--sec);
 }
 .ob-privacy b{color:var(--rose-deep)}
+
+/* v22：開啟時遮罩，避免畫面閃動 */
+body.booting .app-header,
+body.booting main,
+body.booting .nav,
+body.booting .app-footer{visibility:hidden}
+body.booting{background:var(--bg)}

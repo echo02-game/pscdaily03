@@ -226,7 +226,7 @@
     area.appendChild(c5);
 
     $("savedNote").textContent = dayRec.submittedAt
-      ? ("今天已於 " + dayRec.submittedAt + " 提交，可再次提交更新")
+      ? ("今天已於 " + dayRec.submittedAt + " 提交")
       : "填寫後按提交，記錄會自動送到老師 Notion";
   }
 
@@ -442,6 +442,7 @@
     var _cd = $("checkinDate"); if (_cd && !_cd.value) _cd.value = todayISO();
     if (!profile) openOnboard();
     renderAll();
+    document.body.classList.remove("booting");  /* 畫面準備完成才顯示，避免開啟時閃動 */
     flushQueue();
     window.addEventListener("online", flushQueue);
 
