@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://hook.eu1.make.com; manifest-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#C0E1D2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -55,16 +57,16 @@
   <div class="wrap">
     <div class="card">
       <h2>個人資料</h2>
-      <div class="field-label">姓名</div>
-      <input type="text" id="setName" placeholder="你的姓名">
+      <div class="field-label">姓名 / 學生代號</div>
+      <input type="text" id="setName" placeholder="你的姓名或學生代號">
     </div>
     <div class="card">
       <h2>課程設定</h2>
       <div class="field-label">第 1 週開始日期</div>
       <input type="text" id="setStart" placeholder="YYYY-MM-DD">
-      <div class="field-label">提交連結（老師提供的 Webhook）</div>
-      <input type="url" id="setHook" placeholder="https://hook....">
-      <p class="muted" style="margin-top:8px">提交連結由老師在 Make.com 建立後提供；填入後打卡會自動送到老師的 Notion。</p>
+      <div class="field-label">提交連結</div>
+      <div class="locked-field">🔒 已由老師預先設定，無須填寫</div>
+      <p class="muted" style="margin-top:8px">打卡資料會自動送到本課程的學習記錄，你不需要作任何設定。</p>
     </div>
     <div class="submit-bar">
       <button class="btn-primary" id="saveSettings">儲存設定</button>
@@ -97,7 +99,7 @@
 
     <div class="card">
       <h2>🔒 私隱保障</h2>
-      <p class="privacy-text">此網頁工具僅作學習記錄之用。當你按【提交】，打卡資料將上載至老師的 Notion 學習記錄中。此網頁工具亦沒有申請任何裝置權限。</p>
+      <p class="privacy-text">本工具只收集學生代號、提交日期及學習項目，資料會透過 Make 自動化服務儲存至本課程的 Notion 資料庫，僅供獲授權的教職員查閱，並於課程結束後<b>一個月</b>刪除。請勿填寫任何個人資料，本工具不會要求存取裝置的任何權限。</p>
     </div>
 
     <div class="card">
@@ -197,9 +199,10 @@
 <div class="modal hide" id="onboard">
   <div class="box">
     <h2>歡迎使用普通話打卡</h2>
-    <p class="muted">請輸入你的姓名開始使用。之後可在「設定」修改。</p>
-    <div class="field-label">姓名 *</div>
-    <input type="text" id="obName" placeholder="你的姓名">
+    <p class="muted">請輸入你的姓名或老師分配的學生代號開始使用。之後可在「設定」修改。</p>
+    <div class="field-label">姓名 / 學生代號 *</div>
+    <input type="text" id="obName" placeholder="你的姓名或學生代號">
+    <div class="ob-privacy">🔒 本工具只收集學生代號、提交日期及學習項目，資料會透過 Make 自動化服務儲存至本課程的 Notion 資料庫，僅供獲授權的教職員查閱，並於課程結束後<b>一個月</b>刪除。請勿填寫任何個人資料，本工具不會要求存取裝置的任何權限。</div>
     <div class="submit-bar" style="padding:16px 0 0">
       <button class="btn-primary" id="obStart">開始使用</button>
     </div>

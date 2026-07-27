@@ -272,7 +272,7 @@
   function submit() {
     if (!profile) { openOnboard(); return; }
     if (!profile.name || !String(profile.name).trim()) {
-      toast("請先到「設定」填寫你的姓名"); showPage("settings"); return;
+      toast("請先到「設定」填寫姓名或學生代號"); showPage("settings"); return;
     }
     var w = state.week, d = state.day;
     var payload = buildPayload(w, d);
@@ -388,7 +388,7 @@
   function fillSettings() {
     $("setName").value = profile ? profile.name : "";
     $("setStart").value = (profile && profile.start) || window.CONFIG.COURSE_START;
-    $("setHook").value = (profile && profile.hook) || window.CONFIG.WEBHOOK_URL || "";
+    /* 提交連結已由老師預先設定（data.js），設定頁不再顯示或允許編輯 */
   }
 
   /* ---------- onboarding ---------- */
@@ -412,8 +412,8 @@
     $("weekSelect").onchange = function () { state.week = Number(this.value); renderAll(); };
     $("submitBtn").onclick = submit;
     $("saveSettings").onclick = function () {
-      var name = $("setName").value.trim(); if (!name) { toast("請輸入姓名"); return; }
-      profile = { name: name, start: $("setStart").value.trim() || window.CONFIG.COURSE_START, hook: $("setHook").value.trim() };
+      var name = $("setName").value.trim(); if (!name) { toast("請輸入姓名或學生代號"); return; }
+      profile = { name: name, start: $("setStart").value.trim() || window.CONFIG.COURSE_START, hook: (profile && profile.hook) || "" };
       save(PROFILE_KEY, profile); toast("已儲存"); renderAll(); flushQueue();
     };
     $("resyncBtn").onclick = function () { flushQueue().then(function (n) { if (!n) toast("沒有待傳送的打卡"); }); };
@@ -432,7 +432,7 @@
       location.reload();
     };
     $("obStart").onclick = function () {
-      var name = $("obName").value.trim(); if (!name) { toast("請輸入姓名"); return; }
+      var name = $("obName").value.trim(); if (!name) { toast("請輸入姓名或學生代號"); return; }
       profile = { name: name, start: window.CONFIG.COURSE_START, hook: "" };
       save(PROFILE_KEY, profile); closeOnboard();
       state.week = suggestWeek(); state.day = suggestDay(); renderAll();

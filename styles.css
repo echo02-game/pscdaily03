@@ -274,3 +274,26 @@ textarea{resize:vertical; min-height:56px}
 .extra-read{ margin-top:10px; padding-top:10px; border-top:1px dashed var(--border); }
 .extra-label{ font-size:12.5px; color:var(--sec); margin-bottom:6px; font-weight:600; }
 .extra-read input{ width:100%; box-sizing:border-box; }
+
+/* v20：唯讀提交連結 + 首次啟用私隱提示 */
+.locked-field{
+  background:var(--grey-soft);
+  border:1px dashed var(--border);
+  border-radius:10px;
+  padding:11px 12px;
+  font-size:14px;
+  color:var(--sec);
+  user-select:none;
+  -webkit-user-select:none;
+}
+.ob-privacy{
+  margin-top:12px;
+  padding:11px 12px;
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:10px;
+  font-size:12.5px;
+  line-height:1.7;
+  color:var(--sec);
+}
+.ob-privacy b{color:var(--rose-deep)}
