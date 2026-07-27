@@ -1,5 +1,5 @@
 // 普通話每日打卡 — Service Worker（離線快取 App 外殼）
-const CACHE = "psc-checkin-v18";
+const CACHE = "psc-checkin-v19";
 const ASSETS = [
   "./",
   "./index.html",

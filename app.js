@@ -271,6 +271,9 @@
 
   function submit() {
     if (!profile) { openOnboard(); return; }
+    if (!profile.name || !String(profile.name).trim()) {
+      toast("請先到「設定」填寫你的姓名"); showPage("settings"); return;
+    }
     var w = state.week, d = state.day;
     var payload = buildPayload(w, d);
     var hook = profile.hook || window.CONFIG.WEBHOOK_URL;
